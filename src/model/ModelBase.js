@@ -125,7 +125,12 @@ export default class ModelBase {
 			return result;
 		} else return value;
 	}
-
+	
+ _isFunction(functionToCheck) {
+        var getType = {};
+        return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+    }
+	
 	has ( key ) {
 		if ( this._link ) return this._link.has( key );
 
@@ -137,7 +142,7 @@ export default class ModelBase {
 
 		// We climb up the constructor chain to find if one of them contains the key
 		let constructor = value.constructor;
-		while ( constructor !== Function && constructor !== Array && constructor !== Object ) {
+		while (!isFunction(constructor)  && constructor !== Array && constructor !== Object ) {
 			if ( hasProp.call( constructor.prototype, key ) ) return true;
 			constructor = constructor.constructor;
 		}
